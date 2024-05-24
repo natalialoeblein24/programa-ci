@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -47,4 +48,6 @@ def calcular_rota():
     return render_template('resultado.html', resultado=resultado)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
+
+# adicionamento comentario para teste
