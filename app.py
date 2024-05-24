@@ -48,4 +48,5 @@ def calcular_rota():
     return render_template('resultado.html', resultado=resultado)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
+
