@@ -50,4 +50,4 @@ def calcular_rota():
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
 
-# adicionamento comentario para teste
+# adicionamento comentario para teste, mais um teste
