@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+    <title>Lista de Itens</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #222;
+            color: #fff;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            border-radius: 3px;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #555;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #444;
+        }
+
+        tr:nth-child(even) {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('index') }}">Página Inicial</a>
+        <a href="{{ url_for('lista') }}">Lista de Itens</a>
+    </nav>
+
+    <div class="container">
+        <h1>Guia Sinapro 2024</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ITEM</th>
+                    <th>CRIAÇÃO</th>
+                    <th>FINALIZAÇÃO</th>
+                    <th>SUPERVISÃO</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in lista_itens %}
+                    <tr>
+                        <td>{{ item.ID }}</td>
+                        <td>{{ item.ITEM }}</td>
+                        <td>{{ item.CRIAÇÃO }}</td>
+                        <td>{{ item.FINALIZAÇÃO }}</td>
+                        <td>{{ item.SUPERVISÃO }}</td>
+                        <td>{{ item.TOTAL }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

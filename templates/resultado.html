@@ -4,18 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
     <title>Resultado</title>
 </head>
 <body>
+    <nav>
+        <a href="{{ url_for('index') }}">Página Inicial</a>
+        <a href="{{ url_for('lista') }}">Lista de Itens</a>
+    </nav>
+
     <h1>Resultado</h1>
-    {% if resultado[1] is not none %}
-        <p>CUSTO INTERNO:</p>
-        <p>ID: {{ resultado[2]['ID'].values[0] }}</p>
-        <p>ITEM: {{ resultado[2]['ITEM'].values[0] }}</p>
-        <p>TOTAL: R$ {{ "%.2f"|format(resultado[0]) }}</p>
-        <p>7% do total: R$ {{ "%.2f"|format(resultado[1]) }}</p>
-    {% else %}
-        <p>{{ resultado[0] }}</p>
-    {% endif %}
+    <div class="resultado">
+        {% if resultado[1] is not none %}
+            <div id="resultado-text">
+                <p>CUSTO INTERNO:</p>
+                <p>ID: {{ resultado[2]['ID'].values[0] }}</p>
+                <p>ITEM: {{ resultado[2]['ITEM'].values[0] }}</p>
+                {% if resultado[6] == 'Refação' %}
+                    <p>REFAÇÃO: R$ {{ "%.2f"|format(resultado[3] / 2) }}</p>
+                {% elif resultado[6] == 'Criação' %}
+                    <p>CRIAÇÃO: R$ {{ "%.2f"|format(resultado[3]) }}</p>
+                {% endif %}
+                {% if resultado[4] is not none %}
+                    <p>FINALIZAÇÃO: R$ {{ "%.2f"|format(resultado[4]) }}</p>
+                {% endif %}
+                {% if resultado[5] is not none %}
+                    <p>SUPERVISÃO: R$ {{ "%.2f"|format(resultado[5]) }}</p>
+                {% endif %}
+                <p>TOTAL: R$ {{ "%.2f"|format(resultado[0]) }}</p>
+                <p>7% do total: R$ {{ "%.2f"|format(resultado[1]) }}</p>
+            </div>
+            <button class="copy-button" onclick="copyToClipboard()">Copiar Resultado</button>
+        {% else %}
+            <p>{{ resultado[0] }}</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            const text = document.getElementById('resultado-text').innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Resultado copiado para a área de transferência');
+            }, function() {
+                alert('Falha ao copiar');
+            });
+        }
+    </script>
 </body>
 </html>

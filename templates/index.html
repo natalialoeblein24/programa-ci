@@ -4,22 +4,153 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
     <title>Calcular Custo</title>
+    <style>
+        /* Estilos para ambos os HTMLs */
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 60px; /* Espaçamento para compensar o cabeçalho fixo */
+            background-color: #222;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        form {
+            width: 300px;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        input[type="text"],
+        select {
+            width: calc(100% - 22px); /* Adicionamos 2px de margem ao redor do input */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #666;
+            border-radius: 3px;
+            background-color: #444;
+            color: #fff;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para o cabeçalho */
+
+        header {
+            width: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            position: fixed; /* Mantém o cabeçalho fixo */
+            top: 0; /* Define o cabeçalho no topo */
+            z-index: 1000; /* Garante que o cabeçalho esteja acima de outros elementos */
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            transition: background-color 0.3s ease;
+        }
+
+        header a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos específicos para resultado.html */
+
+        .resultado {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .resultado p {
+            margin: 10px 0;
+        }
+
+        /* Estilos para o rodapé */
+
+        footer {
+            width: 100%;
+            padding: 10px 20px;
+            text-align: left;
+            color: #888; /* Cor cinza */
+            position: fixed; /* Mantém o rodapé fixo na parte inferior */
+            bottom: 0; /* Alinha o rodapé na parte inferior */
+            z-index: 1000; /* Garante que o rodapé esteja acima de outros elementos */
+            font-size: 14px; /* Tamanho da fonte menor */
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <a href="{{ url_for('index') }}">Página Inicial</a>
+        <a href="{{ url_for('lista') }}">Lista de Itens</a>
+    </header>
+
     <h1>Calcular Custo</h1>
-    <form action="/calcular" method="post">
-        <label for="item">ID do item:</label>
-        <input type="text" id="item" name="item" required>
-        <br>
-        <label for="tipo">Tipo de cálculo:</label>
-        <select id="tipo" name="tipo" required>
-            <option value="1">Refação</option>
-            <option value="2">Criação</option>
-            <option value="3">Ajuste</option>
-        </select>
-        <br>
-        <input type="submit" value="Calcular">
-    </form>
+    <div class="container">
+        <form action="/calcular" method="post">
+            <label for="item">ID do item:</label>
+            <input type="text" id="item" name="item" required>
+            <br>
+            <label for="tipo">Tipo de cálculo:</label>
+            <select id="tipo" name="tipo" required>
+                <option value="1">Refação</option>
+                <option value="2">Criação</option>
+                <option value="3">Ajuste</option>
+            </select>
+            <br>
+            <input type="submit" value="Calcular">
+        </form>
+    </div>
+
+    <footer>
+        <p>Observações:</p>
+        <p>CRIAÇÃO: 100% dos valores de CRIAÇÃO, FINALIZAÇÃO E SUPERVISÃO.</p>
+        <p>REFAÇÃO: 50% do valor de CRIAÇÃO, e 100% dos demais valores.</p>
+        <p>AJUSTE: 100% do valor de FINALIZAÇÃO e SUPERVISÃO.</p>
+    </footer>
 </body>
 </html>
