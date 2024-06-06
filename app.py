@@ -10,8 +10,8 @@ df = pd.read_csv('final.csv')
 for coluna in ['CRIAÇÃO', 'FINALIZAÇÃO', 'SUPERVISÃO', 'TOTAL']:
     df[coluna] = df[coluna].astype(float)
 
-# Função para calcular o valor e 7% do valor
-def calcular(item, tipo):
+# Função para calcular o valor e o desconto
+def calcular(item, tipo, desconto):
     linha = df[df['ID'] == int(item)]
     if linha.empty:
         return "Item não encontrado no DataFrame", None
@@ -21,23 +21,36 @@ def calcular(item, tipo):
         valor_finalizacao = linha['FINALIZAÇÃO'].values[0]
         valor_supervisao = linha['SUPERVISÃO'].values[0]
         total = valor_criacao * 0.5 + valor_finalizacao + valor_supervisao
-        percentual = total * 0.07
-        return (total, percentual, linha, valor_criacao, valor_finalizacao, valor_supervisao, 'Refação')
+        percentual = total * (desconto / 100)  # Calcula a porcentagem de desconto
+        desconto_final = total - percentual
+        return (total, desconto_final, linha, valor_criacao, valor_finalizacao, valor_supervisao, 'Refação')
     elif tipo == '2':
         valor_criacao = linha['CRIAÇÃO'].values[0]
         valor_finalizacao = linha['FINALIZAÇÃO'].values[0]
         valor_supervisao = linha['SUPERVISÃO'].values[0]
         total = valor_criacao + valor_finalizacao + valor_supervisao
-        percentual = total * 0.07
-        return (total, percentual, linha, valor_criacao, valor_finalizacao, valor_supervisao, 'Criação')
+        percentual = total * (desconto / 100) # Calcula a porcentagem de desconto
+        desconto_final = total - percentual
+        return (total, desconto_final, linha, valor_criacao, valor_finalizacao, valor_supervisao, 'Criação')
     elif tipo == '3':
         valor_finalizacao = linha['FINALIZAÇÃO'].values[0]
         valor_supervisao = linha['SUPERVISÃO'].values[0]
         total = valor_finalizacao + valor_supervisao
-        percentual = total * 0.07
-        return (total, percentual, linha, None, valor_finalizacao, valor_supervisao, 'Ajuste')
+        percentual = total * (desconto / 100)  # Calcula a porcentagem de desconto
+        desconto_final = total - percentual
+        return (total, desconto_final, linha, None, valor_finalizacao, valor_supervisao, 'Ajuste')
     else:
         return "Opção inválida", None
+
+    resultado = {
+        'total': total_com_desconto,
+        'valor_desconto': valor_desconto,
+        'valor_criacao': valor_criacao,
+        'valor_finalizacao': valor_finalizacao,
+        'valor_supervisao': valor_supervisao,
+        'tipo_descricao': tipo_descricao
+    }
+    return resultado
 
 @app.route('/')
 def index():
@@ -48,9 +61,10 @@ def calcular_rota():
     if request.method == 'POST':
         item = request.form['item']
         tipo = request.form['tipo']
-        resultado = calcular(item, tipo)
+        desconto = float(request.form['desconto'])
+        resultado = calcular(item, tipo, desconto)
         return render_template('resultado.html', resultado=resultado)
-    return render_template('calcular.html')
+    return render_template('index.html')
 
 @app.route('/lista')
 def lista():

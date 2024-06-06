@@ -7,6 +7,69 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
     <title>Resultado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
+            margin: 0;
+            padding-top: 60px; /* Espaçamento para compensar o cabeçalho fixo */
+        }
+
+        nav {
+            width: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            position: fixed; /* Mantém o cabeçalho fixo */
+            top: 0; /* Define o cabeçalho no topo */
+            z-index: 1000; /* Garante que o cabeçalho esteja acima de outros elementos */
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
+        .resultado {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .resultado p {
+            margin: 10px 0;
+        }
+
+        .copy-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -33,7 +96,7 @@
                     <p>SUPERVISÃO: R$ {{ "%.2f"|format(resultado[5]) }}</p>
                 {% endif %}
                 <p>TOTAL: R$ {{ "%.2f"|format(resultado[0]) }}</p>
-                <p>7% do total: R$ {{ "%.2f"|format(resultado[1]) }}</p>
+                <p>{{ resultado[7] }}Total com desconto: R$ {{ "%.2f"|format(resultado[1]) }}</p>
             </div>
             <button class="copy-button" onclick="copyToClipboard()">Copiar Resultado</button>
         {% else %}
